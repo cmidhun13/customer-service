@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="com.syzegee_customer-service_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>com.syzegee.customer.service.entity.Tier</class>
+        <class>com.syzegee.customer.service.entity.Customer</class>
+        <class>com.syzegee.customer.service.entity.Packages</class>
+        <class>com.syzegee.customer.service.entity.Organization</class>
+        <class>com.syzegee.customer.service.entity.CustomerBenefit</class>
+        <class>com.syzegee.customer.service.entity.PackagesBenefit</class>
+        <class>com.syzegee.customer.service.entity.DomainDetails</class>
+        <class>com.syzegee.customer.service.entity.CustomerAddress</class>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.1.11:5432/customer_service"/>
+            <property name="javax.persistence.jdbc.user" value="syzegee"/>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.password" value="syzegee123!@#"/>
+        </properties>
+    </persistence-unit>
+</persistence>

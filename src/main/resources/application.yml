@@ -1,0 +1,21 @@
+logging:
+  file: ${user.home}/customer_service/logs/customer_service.log
+  level:
+    root: DEBUG
+server:
+  port: 8085
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: postgres
+    url: jdbc:postgresql://customer.cyglulrs2sd6.us-east-2.rds.amazonaws.com:5432/customer_events
+    username: postgres
+  jmx:
+    enabled: false
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+    show-sql: true
