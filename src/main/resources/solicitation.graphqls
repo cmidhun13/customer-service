@@ -16,8 +16,4 @@ type SolicitationPackage{
     startFrom:String
     endDate:String
     isActive:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }

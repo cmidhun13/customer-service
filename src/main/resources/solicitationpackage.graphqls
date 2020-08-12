@@ -19,10 +19,6 @@ type SolicitationPackage{
     startFrom:String
     endDate:String
     isActive:String
-    created_by:String
-    created_at:String
-    updated_by:String
-    updated_at:String
     packages:Packages
 }
 type Customer{
@@ -33,10 +29,6 @@ type Packages{
     packageName:String
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     solicitationId:String
     packagesBenefits:[PackageBenifit]
 }
@@ -45,19 +37,11 @@ type PackageBenifit{
     customerBenefitId:CustomerBenefit
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 type CustomerBenefit{
     customerBenefitId:String
     vendorId:String
     state:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 

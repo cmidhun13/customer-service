@@ -5,6 +5,7 @@
  */
 package com.syzegee.customer.service.datafetcher;
 
+import com.google.common.collect.MoreCollectors;
 import com.syzegee.customer.service.adapter.CustomerDBAdapter;
 import com.syzegee.customer.service.entity.Customer;
 import com.syzegee.customer.service.exception.CustomerRuntimeException;
@@ -57,6 +58,9 @@ public class CustomerDataFetcher implements DataFetcher<Customer>  {
                     "invalid data! '" +data+"' customerId supports only numbers formats");
         }
         Customer customerById = customerAdapter.getCustomerById(customerId,corelationId );
+        customerById.setFirstName(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getFirstName());
+        customerById.setLastName(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getLastName());
+        customerById.setEmailId(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getEmailId());
         return customerById;
 
     }

@@ -5,8 +5,6 @@ import com.syzegee.customer.service.entity.SolicitationPackage;
 import com.syzegee.customer.service.exception.CustomerRuntimeException;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;

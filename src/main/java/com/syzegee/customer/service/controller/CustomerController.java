@@ -12,22 +12,20 @@ import com.syzegee.customer.service.service.CustomerService;
 import com.syzegee.customer.service.service.CustomerUserService;
 import com.syzegee.customer.service.util.CorrelationIdUtil;
 import com.syzegee.customer.service.util.GenericResponse;
-import graphql.ExecutionResult;
 import com.szells.util.StringOperation;
+import graphql.ExecutionResult;
 import graphql.GraphQLError;
 import graphql.schema.DataFetcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 
 /**
@@ -35,7 +33,7 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
-@RequestMapping("api/v1/")
+@RequestMapping("/api/v1/")
 public class CustomerController extends CustomerAbstractController {
     //Injects the customer service
     @Autowired
@@ -50,8 +48,24 @@ public class CustomerController extends CustomerAbstractController {
      * @return object of customer based on the grapg query else return error
      */
 
-    @PostMapping("/customers")
-    public ResponseEntity<Object> getCustomer(@RequestHeader(value = "correlationId",
+    @PostMapping(value="/customers")
+    public ResponseEntity<Object> getCustomer(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization,@RequestHeader(value = "correlationId",
+            required = false,defaultValue = "") String correlationId,@RequestBody String query)
+            throws IOException, CustomerRuntimeException {
+        log.info("Entered into getCustomer@CustomerController");
+        String validCorrelationId = CorrelationIdUtil.generateCorrelationId(correlationId);
+        log.info("Initiate getCustomer : " + " - CorrelationId: " + validCorrelationId);
+        ExecutionResult execute;
+
+        Object customerData;
+        DataFetcher dataFetcher = customerService.retrieveCustomerById(validCorrelationId);
+        execute = buildResponse(dataFetcher, validCorrelationId).execute(query);
+        customerData = execute.getData();
+        handleErrors(execute, validCorrelationId);
+        return new ResponseEntity<>(customerData, HttpStatus.OK);
+    }
+    @PostMapping(value="/customersWithoutAuth")    // this method is used in ng auth project (forgotPassword api)
+    public ResponseEntity<Object> getCustomerWithoutAuth(@RequestHeader(value = "correlationId",
             required = false,defaultValue = "") String correlationId,@RequestBody String query)
             throws IOException, CustomerRuntimeException {
         log.info("Entered into getCustomer@CustomerController");

@@ -9,34 +9,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Tolerate;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  *
  * @author WildJasmine
  */
 @Entity
+@Data
 @Table(name = "customer")
 @XmlRootElement
 @Builder()
@@ -124,9 +110,9 @@ public class Customer implements Serializable {
     @Column(name = "communication_preferences")
     private String communicationPreferences;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<CustomerAddress> customerAddressCollection;
+    private Collection<CustomerAddress> customerAddresses;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<CustomerBenefit> customerBenefitCollection;
+    private Collection<CustomerBenefit> customerBenefits;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
     private Collection<Tier> tiers;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
@@ -140,7 +126,12 @@ public class Customer implements Serializable {
     private Organization organizationId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
     private Collection<SolicitationPackage> solicitationPackages;
-
+    @Transient
+    private String firstName;
+    @Transient
+    private String lastName;
+    @Transient
+    private String emailId;
 
     @Tolerate
     public Customer() {
@@ -156,226 +147,6 @@ public class Customer implements Serializable {
         this.customerId = customerId;
         this.userId = userId;
         this.activationCode = activationCode;
-    }
-
-    public String getCommunicationPreferences() {
-        return communicationPreferences;
-    }
-
-    public void setCommunicationPreferences(String communicationPreferences) {
-        this.communicationPreferences = communicationPreferences;
-    }
-
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getBusinessName() {
-        return businessName;
-    }
-
-    public void setBusinessName(String businessName) {
-        this.businessName = businessName;
-    }
-
-    public String getBusinessEmail() {
-        return businessEmail;
-    }
-
-    public void setBusinessEmail(String businessEmail) {
-        this.businessEmail = businessEmail;
-    }
-
-    public String getBusinessType() {
-        return businessType;
-    }
-
-    public void setBusinessType(String businessType) {
-        this.businessType = businessType;
-    }
-
-    public String getBusinessCategory() {
-        return businessCategory;
-    }
-
-    public void setBusinessCategory(String businessCategory) {
-        this.businessCategory = businessCategory;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
-    }
-
-    public Boolean getActivationStatus() {
-        return activationStatus;
-    }
-
-    public void setActivationStatus(Boolean activationStatus) {
-        this.activationStatus = activationStatus;
-    }
-
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
-
-    public String getCorrelationId() {
-        return correlationId;
-    }
-
-    public void setCorrelationId(String correlationId) {
-        this.correlationId = correlationId;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    @XmlTransient
-    public Collection<CustomerAddress> getCustomerAddressCollection() {
-        return customerAddressCollection;
-    }
-
-    public void setCustomerAddressCollection(Collection<CustomerAddress> customerAddressCollection) {
-        this.customerAddressCollection = customerAddressCollection;
-    }
-
-    @XmlTransient
-    public Collection<CustomerBenefit> getCustomerBenefitCollection() {
-        return customerBenefitCollection;
-    }
-
-    public void setCustomerBenefitCollection(Collection<CustomerBenefit> customerBenefitCollection) {
-        this.customerBenefitCollection = customerBenefitCollection;
-    }
-    @XmlTransient
-    public Collection<Tier> getTiers() {
-        return tiers;
-    }
-
-    public void setTiers(Collection<Tier> tiers) {
-        this.tiers = tiers;
-    }
-    @XmlTransient
-    public Collection<SolicitationPackage> getSolicitationPackages() {
-        return solicitationPackages;
-    }
-
-    public void setSolicitationPackages(Collection<SolicitationPackage> solicitationPackages) {
-        this.solicitationPackages = solicitationPackages;
-    }
-
-    @XmlTransient
-    public Collection<CustomerUser> getCustomerUserCollection() {
-        return customerUserCollection;
-    }
-
-    public void setCustomerUserCollection(Collection<CustomerUser> customerUserCollection) {
-        this.customerUserCollection = customerUserCollection;
-    }
-    @XmlTransient
-    public Collection<DomainDetails> getDomainDetails() {
-        return domainDetails;
-    }
-
-    public void setDomainDetails(Collection<DomainDetails> domainDetails) {
-        this.domainDetails = domainDetails;
-    }
-
-    @XmlTransient
-    public Collection<Packages> getPackages() {
-        return packages;
-    }
-
-    public void setPackages(Collection<Packages> packages) {
-        this.packages = packages;
-    }
-
-    public Organization getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Organization organizationId) {
-        this.organizationId = organizationId;
     }
 
     @Override

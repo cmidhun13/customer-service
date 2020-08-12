@@ -8,26 +8,35 @@ type Query{
 
 type Customer{
     customerId:String
+    communicationPreferences:String
+    firstName:String
+    lastName:String
+    emailId:String
     userId:String
     state:String
-    buisnessName:String
+    businessName:String
     businessEmail:String
     industryType:String
     region:String
     phone:String
     currency:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     organizationId:Organization
     customerAddresses:[CustomerAddress]
+    customerUserCollection : [CustomerUser]
     tiers:[Tier]
     customerBenefits:[CustomerBenefit]
     domainDetails:[DomainDetails]
     packages:[Packages]
     solicitationPackages:[SolicitationPackage]
+}
+type CustomerUser{
+    firstName:String
+    lastName:String
+    emailId:String
+    customerId:String
+    isActive:String
+    correlationId:String
 }
 type SolicitationPackage{
     solicitationPackageId:String
@@ -35,10 +44,6 @@ type SolicitationPackage{
     startFrom:String
     endDate:String
     isActive:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     packages:Packages
 }
 type Organization{
@@ -47,10 +52,6 @@ type Organization{
     organizationDesc:String
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 
 type CustomerAddress{
@@ -64,10 +65,6 @@ type CustomerAddress{
     zipCode:String
     countryCode:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 
 type Tier{
@@ -75,10 +72,6 @@ type Tier{
     tierName:String
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     packages:[Packages]
 }
 type Packages{
@@ -86,10 +79,6 @@ type Packages{
     packageName:String
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     solicitationId:String
     packagesBenefits:[PackageBenifit]
 }
@@ -98,20 +87,12 @@ type PackageBenifit{
     customerBenefitId:CustomerBenefit
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 type CustomerBenefit{
     customerBenefitId:String
     vendorId:String
     state:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     benefitName:String
     description:String
     imageURL:String
@@ -128,8 +109,4 @@ type DomainDetails{
     logo:String
     tagline:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }

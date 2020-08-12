@@ -12,10 +12,6 @@ type CustomerUser{
     lastName:String
     isActive:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 
 type Customer{
@@ -29,10 +25,6 @@ type Customer{
     phone:String
     currency:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     organizationId:Organization
     customerAddresses:[CustomerAddress]
     tiers:[Tier]
@@ -48,10 +40,6 @@ type Organization{
     organizationDesc:String
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 
 type CustomerAddress{
@@ -65,10 +53,6 @@ type CustomerAddress{
     zipCode:String
     countryCode:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 
 type Tier{
@@ -76,10 +60,6 @@ type Tier{
     tierName:String
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     packages:[Packages]
 }
 type Packages{
@@ -87,10 +67,6 @@ type Packages{
     packageName:String
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     solicitationId:String
     packagesBenefits:[PackageBenifit]
 }
@@ -99,20 +75,12 @@ type PackageBenifit{
     customerBenefitId:CustomerBenefit
     correlationId:String
     state:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }
 type CustomerBenefit{
     customerBenefitId:String
     vendorId:String
     state:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
     benefitName:String
     description:String
     imageURL:String
@@ -129,8 +97,4 @@ type DomainDetails{
     logo:String
     tagline:String
     correlationId:String
-    createdBy:String
-    createdDate:String
-    updatedBy:String
-    updatedDate:String
 }

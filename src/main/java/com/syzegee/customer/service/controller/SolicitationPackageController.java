@@ -17,6 +17,7 @@ import graphql.GraphQLError;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class SolicitationPackageController extends SolicitationPackageAbstractCo
      */
 
     @PostMapping("/solicitation")
-    public ResponseEntity<Object> getSolicitation(@RequestHeader(value = "correlationId",
+    public ResponseEntity<Object> getSolicitation(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization,@RequestHeader(value = "correlationId",
             required = false, defaultValue = "") String correlationId, @RequestBody String query)
             throws IOException, CustomerRuntimeException {
         String validCorrelationId = CorrelationIdUtil.generateCorrelationId(correlationId);
@@ -59,8 +60,27 @@ public class SolicitationPackageController extends SolicitationPackageAbstractCo
         return new ResponseEntity<>(customerData, HttpStatus.OK);
     }
 
+    @PostMapping("/solicitationGeneric")
+    public ResponseEntity<GenericResponse> solicitationGeneric(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization,
+                                                               @RequestHeader(value = "correlationId",
+            required = false, defaultValue = "") String correlationId, @RequestBody String query)
+            throws IOException, CustomerRuntimeException {
+        String validCorrelationId = CorrelationIdUtil.generateCorrelationId(correlationId);
+        ExecutionResult execute;
+        Object data;
+        DataFetcher<List<SolicitationPackage>> dataFetcher = solicitationPackageService.retrieveSolicitationPackageById(validCorrelationId);
+        execute = buildResponse(dataFetcher, validCorrelationId).execute(query);
+        data = execute.getData();
+        handleErrors(execute, validCorrelationId);
+        if (((LinkedHashMap) data).get("solicitationPackage") != null) {
+            return ResponseEntity.ok(new GenericResponse<Object>(true,HttpStatus.OK.value(),"Solicitation Packages fetched successfully.","Solicitation Packages fetched successfully.", data));
+        }
+        return ResponseEntity.ok(new GenericResponse<Object>(false,HttpStatus.OK.value(),"Solicitation Packages not found.","Solicitation Packages not found.", null));
+
+    }
+
     @PostMapping("/solicitation/list")
-    public ResponseEntity<GenericResponse> getSolicitationPackageList(@RequestBody String query) throws IOException {
+    public ResponseEntity<GenericResponse> getSolicitationPackageList(@RequestHeader(value = HttpHeaders.AUTHORIZATION) String authorization,@RequestBody String query) throws IOException {
         ExecutionResult execute;
         Object customerUserData;
         DataFetcher dataFetcher = solicitationPackageService.retrieveSolicitationPackagesByCustomerId();

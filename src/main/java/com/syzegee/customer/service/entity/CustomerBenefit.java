@@ -5,7 +5,7 @@
  */
 package com.syzegee.customer.service.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -93,15 +93,6 @@ public class CustomerBenefit implements Serializable {
     public CustomerBenefit(Long customerBenefitId, long vendorId) {
         this.customerBenefitId = customerBenefitId;
         this.vendorId = vendorId;
-    }
-
-    @XmlTransient
-    public Collection<PackagesBenefit> getPackagesBenefitCollection() {
-        return packagesBenefitCollection;
-    }
-
-    public void setPackagesBenefitCollection(Collection<PackagesBenefit> packagesBenefitCollection) {
-        this.packagesBenefitCollection = packagesBenefitCollection;
     }
 
     @Override

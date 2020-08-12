@@ -1,6 +1,5 @@
 package com.syzegee.customer.service.repository;
 
-import com.syzegee.customer.service.entity.Customer;
 import com.syzegee.customer.service.entity.CustomerUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

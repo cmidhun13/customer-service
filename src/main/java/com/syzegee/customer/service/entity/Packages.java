@@ -73,11 +73,6 @@ public class Packages implements Serializable {
     @ManyToOne(optional = false)
     private Tier tierId;
 
-    @XmlTransient
-    public Collection<PackagesBenefit> getPackagesBenefits() {
-        return packagesBenefits;
-    }
-
     @Override
     public String toString() {
         return "com.syzegee.customer.service.entity.Packages[ packageId=" + packageId + " ]";
