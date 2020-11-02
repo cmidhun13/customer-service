@@ -1,0 +1,47 @@
+schema{
+    query:Query
+}
+
+type Query{
+    solicitationPackage(customer_id: String, solicitation_id: String): [SolicitationPackage]
+    getSolicitationPackage(customerId: Long) : [soli]
+}
+type soli{
+    solicitationId:String
+    solicitationName:String
+}
+type SolicitationPackage{
+    solicitationPackageId:String
+    solicitationId:String
+    customer:Customer
+    customerId:Customer
+    packageId:String
+    startFrom:String
+    endDate:String
+    isActive:String
+    packages:Packages
+}
+type Customer{
+    customerId:String
+}
+type Packages{
+    packageId:String
+    packageName:String
+    correlationId:String
+    state:String
+    solicitationId:String
+    packagesBenefits:[PackageBenifit]
+}
+type PackageBenifit{
+    packageBenefitId:String
+    customerBenefitId:CustomerBenefit
+    correlationId:String
+    state:String
+}
+type CustomerBenefit{
+    customerBenefitId:String
+    vendorId:String
+    state:String
+    correlationId:String
+}
+
