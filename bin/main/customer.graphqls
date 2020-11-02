@@ -1,0 +1,124 @@
+schema{
+    query:Query
+}
+
+type Query{
+    customer(id: String): Customer
+}
+
+type Customer{
+    customerId:String
+    userId:String
+    state:String
+    buisnessName:String
+    businessEmail:String
+    industryType:String
+    region:String
+    phone:String
+    currency:String
+    correlationId:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+    organizationId:Organization
+    customerAddresses:[CustomerAddress]
+    tiers:[Tier]
+    customerBenefits:[CustomerBenefit]
+    domainDetails:[DomainDetails]
+    packages:[Packages]
+}
+
+
+type Organization{
+    organizationId:String
+    organizationName:String
+    organizationDesc:String
+    correlationId:String
+    state:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+}
+
+type CustomerAddress{
+    customerAddressId:String
+    addressLine1:String
+    addressLine2:String
+    addressLine3:String
+    city:String
+    state:String
+    sate:String
+    zipCode:String
+    countryCode:String
+    correlationId:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+}
+
+type Tier{
+    tierId:String
+    tierName:String
+    correlationId:String
+    state:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+    packages:[Packages]
+}
+type Packages{
+    packageId:String
+    packageName:String
+    correlationId:String
+    state:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+    solicitationId:String
+    packagesBenefits:[PackageBenifit]
+}
+type PackageBenifit{
+    packageBenefitId:String
+    customerBenefitId:CustomerBenefit
+    correlationId:String
+    state:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+}
+type CustomerBenefit{
+    customerBenefitId:String
+    vendorId:String
+    state:String
+    correlationId:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+    benefitName:String
+    description:String
+    imageURL:String
+    redirectURL:String
+}
+
+type DomainDetails{
+    siteId:String
+    siteCode:String
+    templateCode:String
+    siteName:String
+    siteDesc:String
+    domainName:String
+    logo:String
+    tagline:String
+    correlationId:String
+    createdBy:String
+    createdDate:String
+    updatedBy:String
+    updatedDate:String
+}
