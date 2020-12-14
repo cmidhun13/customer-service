@@ -5,7 +5,7 @@
  */
 package com.syzegee.customer.service.adapter;
 
-import com.syzegee.customer.service.entity.Customer;
+import com.syzegee.customer.service.entity .Customer;
 import com.syzegee.customer.service.entity.Organization;
 import com.syzegee.customer.service.repository.CustomerRepository;
 import org.junit.*;

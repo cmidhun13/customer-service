@@ -18,7 +18,7 @@ spring:
       hibernate:
         temp:
           use_jdbc_metadata_defaults: false
-    show-sql: true
+    show-sql: false
 
 rest:
   security:

@@ -18,6 +18,8 @@ import graphql.GraphQLError;
 import graphql.schema.DataFetcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,11 @@ public class CustomerController extends CustomerAbstractController {
     CustomerService customerService;
     @Autowired
     CustomerUserService customerUserService;
+    @Value("classpath:customer.graphqls")
+    private Resource customerSchemaResource;
+    @Value("classpath:customeruser.graphqls")
+    private Resource customerUserschemaResource;
+
 
     /**
      * This method is used to get customer by custId using graphql
@@ -59,7 +66,7 @@ public class CustomerController extends CustomerAbstractController {
 
         Object customerData;
         DataFetcher dataFetcher = customerService.retrieveCustomerById(validCorrelationId);
-        execute = buildResponse(dataFetcher, validCorrelationId).execute(query);
+        execute = buildResponse("customer",dataFetcher,customerSchemaResource,validCorrelationId).execute(query);
         customerData = execute.getData();
         handleErrors(execute, validCorrelationId);
         return new ResponseEntity<>(customerData, HttpStatus.OK);
@@ -75,7 +82,7 @@ public class CustomerController extends CustomerAbstractController {
 
         Object customerData;
         DataFetcher dataFetcher = customerService.retrieveCustomerById(validCorrelationId);
-        execute = buildResponse(dataFetcher, validCorrelationId).execute(query);
+        execute = buildResponse("customer",dataFetcher,customerUserschemaResource, validCorrelationId).execute(query);
         customerData = execute.getData();
         handleErrors(execute, validCorrelationId);
         return new ResponseEntity<>(customerData, HttpStatus.OK);
@@ -85,7 +92,8 @@ public class CustomerController extends CustomerAbstractController {
         ExecutionResult execute;
         Object customerUserData;
         DataFetcher dataFetcher = customerUserService.retrieveCustomeUserDeatailsByEmailId();
-        execute = buildResponse(dataFetcher).execute(query);
+        //TODO fix the correlation Id
+        execute = buildResponse("customerUserByEmailId",dataFetcher,customerUserschemaResource,"1223333").execute(query);
         customerUserData = execute.getData();
         List<GraphQLError> errors = execute.getErrors();
         if (!errors.isEmpty()) {
@@ -101,6 +109,8 @@ public class CustomerController extends CustomerAbstractController {
                     "does not exist in the system.",null, null));
         }
     }
+
+    //TODO the following encryption methods need to be moved away
     @GetMapping(value = "/encryption")
     public GenericResponse<String> encryption(@RequestParam("memberid") String msg) throws Exception {
         String encrypt = StringOperation.encrypt(msg);

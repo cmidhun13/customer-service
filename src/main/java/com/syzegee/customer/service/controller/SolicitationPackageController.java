@@ -34,7 +34,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/")
 @RequiredArgsConstructor
-public class SolicitationPackageController extends SolicitationPackageAbstractController {
+public class   SolicitationPackageController extends SolicitationPackageAbstractController {
     //Injects the customer service
     private final SolicitationPackageService solicitationPackageService;
 

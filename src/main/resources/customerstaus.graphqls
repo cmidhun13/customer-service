@@ -1,0 +1,14 @@
+schema{
+    query:Query
+}
+type Query{
+    customerStatusByCustomerId(customerId: String): CustomerStatus
+}
+type CustomerStatus{
+    customerId:String
+    onBoardStatus:String
+    siteUpdateStatus:String
+    marketingAutomationStatus:String
+    cmsSetUpStatus:String
+
+}

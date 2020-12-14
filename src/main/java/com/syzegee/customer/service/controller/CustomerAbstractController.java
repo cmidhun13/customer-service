@@ -10,6 +10,7 @@ import graphql.schema.DataFetcher;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -20,55 +21,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-/**
- * @author Sangam
- */
 @Slf4j
 @Controller
 public abstract class CustomerAbstractController {
-    @Value("classpath:customer.graphqls")
-    private Resource schemaResource;
-    @Value("classpath:customeruser.graphqls")
-    private Resource schemaResourceCustomerUser;
 
-    private CustomerDataFetcher dataFetcher;
-    private CustomerUserDataFetcher customerUserDataFetcher;
-
-    private GraphQL loadDataFetcher(DataFetcher dataFetcher) throws IOException {
-        this.dataFetcher = (CustomerDataFetcher) dataFetcher;
+    private GraphQL loadDataFetcher(String graphQlMethodname,DataFetcher dataFetcher,Resource resource) throws IOException {
         log.info("Entering loadDataFetcher@CustomerAbstractController");
-        return GraphQL.newGraphQL(new SchemaGenerator().makeExecutableSchema(new SchemaParser().parse(new InputStreamReader(schemaResource.getInputStream())), buildRuntimeWiring())).build();
-    }
-    private GraphQL loadDataFetcherForCustomerUser(DataFetcher dataFetcher) throws IOException {
-        this.customerUserDataFetcher = (CustomerUserDataFetcher) dataFetcher;
-        log.info("Entering loadDataFetcher@CustomerAbstractController");
-        return GraphQL.newGraphQL(new SchemaGenerator().makeExecutableSchema(new SchemaParser().parse(new InputStreamReader(schemaResourceCustomerUser.getInputStream())), buildCustomerUserRuntimeWiring())).build();
+        return GraphQL.newGraphQL(new SchemaGenerator().makeExecutableSchema(new SchemaParser().parse(new InputStreamReader(resource.getInputStream())), buildRuntimeWiring(graphQlMethodname,dataFetcher))).build();
 
     }
-    private RuntimeWiring buildCustomerUserRuntimeWiring() {
+    private RuntimeWiring buildRuntimeWiring(String graphQLMethodName,DataFetcher dataFetcher) {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("customerUserByEmailId", customerUserDataFetcher))
+                        .dataFetcher(graphQLMethodName,dataFetcher))
                 .build();
     }
 
-    private RuntimeWiring buildRuntimeWiring() {
-        return RuntimeWiring.newRuntimeWiring()
-                .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("customer", dataFetcher))
-                .build();
-    }
 
-    public GraphQL buildResponse(DataFetcher dataFetcher, String corelationId) throws IOException {
+    public GraphQL buildResponse(String graphQLMethodName,DataFetcher dataFetcher,Resource resource, String corelationId) throws IOException {
         log.info("Entering buildResponse@CustomerAbstractController");
         log.info("Initiate buildResponse : " + " - CorrelationId: " + corelationId);
-        GraphQL loadSchema = loadDataFetcher(dataFetcher);
+        GraphQL loadSchema = loadDataFetcher(graphQLMethodName,dataFetcher,resource);
         return loadSchema;
     }
-    public GraphQL buildResponse(DataFetcher dataFetcher) throws IOException {
-        GraphQL loadSchema = loadDataFetcherForCustomerUser(dataFetcher);
-        return loadSchema;
-    }
+
 
     public void handleErrors(ExecutionResult execute, String corelationId) throws CustomerServiceException {
         List<GraphQLError> errors = execute.getErrors();

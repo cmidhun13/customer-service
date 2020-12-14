@@ -19,3 +19,9 @@ customer service: http://3.15.40.28:8080/
 2. Open project.
 3. build the project using Gradle-><<Project>>->Tasks->build->build.
 4. Once Project get build successfully, press Shift+F10 to run it.
+
+TODO
+Enable Oauth in all the endpoints
+Remove unnecessary methods and hard contants into constants or property file
+Fix the git ignore comments not to carry over the local files
+Integrate into one Single service
