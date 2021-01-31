@@ -1,5 +1,6 @@
 package com.syzegee.customer.service.adapter;
 
+import com.syzegee.customer.service.entity.Customer;
 import com.syzegee.customer.service.entity.CustomerStatus;
 import com.syzegee.customer.service.entity.CustomerUser;
 import com.syzegee.customer.service.repository.CustomerStatusRepository;
@@ -16,8 +17,8 @@ public class CustomerStatusDBAdapter {
     @Autowired
     private CustomerStatusRepository customerStatusRepository;
 
-    public CustomerStatus getCustomerStatusByCustomerId(long customrId){
-        CustomerStatus customerStatus = customerStatusRepository.getCustomerStatusByCustomerId(customrId);
+    public CustomerStatus getCustomerStatusByCustomerId(Customer customerId){
+        CustomerStatus customerStatus = customerStatusRepository.getCustomerStatusByCustomerId(customerId);
         return  customerStatus;
     }
 }
