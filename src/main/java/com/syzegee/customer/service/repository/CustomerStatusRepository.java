@@ -22,6 +22,6 @@ public interface CustomerStatusRepository extends JpaRepository<CustomerStatus, 
      * @return Rule
      */
     @Query("from CustomerStatus where customerId=:customerId")
-    public CustomerStatus getCustomerStatusByCustomerId(@Param("customerId") Long customerId);
+    public CustomerStatus getCustomerStatusByCustomerId(@Param("customerId") Customer customerId);
 
 }

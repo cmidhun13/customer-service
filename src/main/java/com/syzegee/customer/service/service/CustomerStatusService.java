@@ -1,5 +1,6 @@
 package com.syzegee.customer.service.service;
 
+import com.syzegee.customer.service.adapter.CustomerDBAdapter;
 import com.syzegee.customer.service.adapter.CustomerStatusDBAdapter;
 import com.syzegee.customer.service.adapter.CustomerUserDBAdapter;
 import com.syzegee.customer.service.datafetcher.CustomerStatusDataFetcher;
@@ -14,9 +15,11 @@ import org.springframework.stereotype.Service;
 public class CustomerStatusService {
     @Autowired
     CustomerStatusDBAdapter customerStatusDBAdapter;
+    @Autowired
+    CustomerDBAdapter customerDBAdapter;
     public DataFetcher retrieveCustomerStatus() throws CustomerRuntimeException {
         //log.info("Initiate retrieveCustomerStaus : " + " - CorrelationId: " + corelationId );
-        CustomerStatusDataFetcher customerStatusDataFetcher = new CustomerStatusDataFetcher(customerStatusDBAdapter);
+        CustomerStatusDataFetcher customerStatusDataFetcher = new CustomerStatusDataFetcher(customerStatusDBAdapter,customerDBAdapter);
         return customerStatusDataFetcher ;
 
     }

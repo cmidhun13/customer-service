@@ -19,30 +19,21 @@ public class CustomerStatus  implements Serializable {
     @Basic(optional = false)
     @Column(name = "customer_status_id")
     private Long customerStatusId;
-    @Basic(optional = false)
-    @Column(name = "customer_id")
-    private long customerId;
+
+    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
+    @ManyToOne(optional = false)
+    private Customer customerId;
+
     @Column(name = "correlation_id")
     private String correlationId;
     @Column(name = "on_boarding_status")
     private Boolean onBoardStatus;
-    @Column(name = "site_update_status")
-    private Boolean siteUpdateStatus;
+
     @Column(name = "marketing_automation_status")
     private Boolean marketingAutomationStatus;
-    @Column(name = "cms_status")
+    @Column(name = "cms_site_update_status")
     private Boolean cmsSetUpStatus;
-    public CustomerStatus() {
-    }
 
-    public CustomerStatus(Long customerStatusId) {
-        this.customerStatusId = customerStatusId;
-    }
-
-    public CustomerStatus(Long customerStatusId, long customerId) {
-        this.customerStatusId = customerStatusId;
-        this.customerId = customerId;
-    }
 
     @Override
     public int hashCode() {
@@ -54,7 +45,7 @@ public class CustomerStatus  implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CustomerStatus)) {
+        if (!(object instanceof CustomerAddress)) {
             return false;
         }
         CustomerStatus other = (CustomerStatus) object;
@@ -66,7 +57,7 @@ public class CustomerStatus  implements Serializable {
 
     @Override
     public String toString() {
-        return "com.syzegee.customer.service.entity.CustomerStatus[ customerStatusId=" + customerStatusId + " ]";
+        return "com.syzegee.customer.service.entity.CustomerStatus[ customerAddressId=" + customerStatusId + " ]";
     }
 
 }

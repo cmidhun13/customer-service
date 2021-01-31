@@ -38,7 +38,7 @@ public class CustomerService {
 
     public DataFetcher retrieveCustomerStatus() throws CustomerRuntimeException {
         //log.info("Initiate retrieveCustomerStaus : " + " - CorrelationId: " + corelationId );
-        CustomerStatusDataFetcher customerStatusDataFetcher = new CustomerStatusDataFetcher(customerStatusDBAdapter);
+        CustomerStatusDataFetcher customerStatusDataFetcher = new CustomerStatusDataFetcher(customerStatusDBAdapter,customerDBAdapter);
         return customerStatusDataFetcher ;
 
     }
