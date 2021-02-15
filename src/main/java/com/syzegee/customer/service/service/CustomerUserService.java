@@ -12,7 +12,7 @@ public class CustomerUserService {
     @Autowired
     CustomerUserDBAdapter customerUserDBAdapter;
     public DataFetcher retrieveCustomeUserDeatailsByEmailId(){
-        DataFetcher fetcher = new CustomerUserDataFetcher(customerUserDBAdapter);
+        CustomerUserDataFetcher fetcher = new CustomerUserDataFetcher(customerUserDBAdapter);
         return fetcher ;
     }
 

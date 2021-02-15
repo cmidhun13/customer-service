@@ -45,7 +45,7 @@ public class CustomerStatusController extends CustomerAbstractController {
     private Resource customerStatuschemaResource;
 
     @PostMapping("status")
-    public ResponseEntity<GenericResponse<Object>> getCustomerStatu(@RequestHeader(value = "correlationId",
+    public ResponseEntity<GenericResponse<Object>> getCustomerStatus(@RequestHeader(value = "correlationId",
             required = false,defaultValue = "") String correlationId,@RequestBody String query) throws IOException {
         ExecutionResult execute;
         Object customerStatusData;

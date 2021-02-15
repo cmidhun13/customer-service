@@ -82,13 +82,14 @@ public class CustomerController extends CustomerAbstractController {
 
         Object customerData;
         DataFetcher dataFetcher = customerService.retrieveCustomerById(validCorrelationId);
-        execute = buildResponse("customer",dataFetcher,customerUserschemaResource, validCorrelationId).execute(query);
+        execute = buildResponse("customer",dataFetcher,customerSchemaResource, validCorrelationId).execute(query);
         customerData = execute.getData();
         handleErrors(execute, validCorrelationId);
         return new ResponseEntity<>(customerData, HttpStatus.OK);
     }
     @PostMapping("/customerUserDetails")
-    public ResponseEntity<GenericResponse<Object>> getCustomerDetails(@RequestBody String query) throws IOException {
+    public ResponseEntity<GenericResponse<Object>> getCustomerDetails(@RequestHeader(value = "correlationId",
+            required = false,defaultValue = "") String correlationId,@RequestBody String query) throws IOException {
         ExecutionResult execute;
         Object customerUserData;
         DataFetcher dataFetcher = customerUserService.retrieveCustomeUserDeatailsByEmailId();

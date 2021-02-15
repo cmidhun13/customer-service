@@ -1,6 +1,7 @@
 package com.syzegee.customer.service.datafetcher;
 
 import com.syzegee.customer.service.adapter.CustomerUserDBAdapter;
+import com.syzegee.customer.service.domain.response.CustomerUserResponse;
 import com.syzegee.customer.service.entity.CustomerUser;
 import graphql.schema.DataFetcher;
 import graphql.schema.DataFetchingEnvironment;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class CustomerUserDataFetcher implements DataFetcher<CustomerUser> {
+public class CustomerUserDataFetcher implements DataFetcher<CustomerUserResponse> {
     private CustomerUserDBAdapter customerUserDBAdapter;
 
     @Autowired
@@ -18,8 +19,24 @@ public class CustomerUserDataFetcher implements DataFetcher<CustomerUser> {
         this.customerUserDBAdapter = customerUserDBAdapter;
     }
     @Override
-    public CustomerUser get(DataFetchingEnvironment environment) {
+    public CustomerUserResponse get(DataFetchingEnvironment environment) {
         String data = environment.getArgument("emailId");
-        return  customerUserDBAdapter.getCustomerUserDetailsByEmailId(data);
+        CustomerUser customerUser= customerUserDBAdapter.getCustomerUserDetailsByEmailId(data);
+        System.out.println("Customer User customerUser getCustomerUserId : " + customerUser.getCustomerUserId());
+        System.out.println("Customer User customerUser getCustomerId : " + customerUser.getCustomerId());
+        System.out.println("Customer User getFirstName : " + customerUser.getFirstName());
+        System.out.println("Customer User getFirstName : " + customerUser.getLastName());
+        System.out.println("Customer User getFirstName : " + customerUser.getCorrelationId());
+        System.out.println("Customer User getCreatedBy : " + customerUser.getCreatedBy());
+        System.out.println("Customer User getCreatedBy : " + customerUser.getCreatedDate());
+        CustomerUserResponse response = CustomerUserResponse.builder().customerId(String.valueOf(customerUser.getCustomerId()))
+                .emailId(customerUser.getEmailId())
+                .firstName(customerUser.getFirstName())
+                .lastName(customerUser.getFirstName())
+                .customerUserId(String.valueOf(customerUser.getCustomerUserId()))
+                .isActive(String.valueOf(customerUser.getIsActive()))
+                .build();
+
+        return response;
     }
 }

@@ -1,7 +1,7 @@
 logging:
   file: ${user.home}/customer_service/logs/customer_service.log
   level:
-    root: DEBUG
+    root: INFO
 server:
   port: 8085
 spring:

@@ -44,6 +44,7 @@ public class CustomerDataFetcher implements DataFetcher<Customer>  {
     public Customer get(DataFetchingEnvironment dataFetchingEnvironment) throws CustomerRuntimeException {
         log.info("Initiate getCustomer : " + " - CorrelationId: " +corelationId);
         String data = dataFetchingEnvironment.getArgument("id");
+        Customer customerById =null;
         if(data==null || data.isEmpty()){
             log.info("error in getCustomer : " + " - CorrelationId: " + corelationId );
             throw new CustomerRuntimeException(HttpStatus.BAD_REQUEST,HttpStatus.BAD_REQUEST.value(),
@@ -52,15 +53,23 @@ public class CustomerDataFetcher implements DataFetcher<Customer>  {
         Long customerId =null;
         try {
             customerId = Long.parseLong(data);
+            System.out.println("Customer id :"+ data);
+            customerById = customerAdapter.getCustomerById(customerId,corelationId );
+            System.out.println("CustomerId :"+ customerById.getCustomerId());
+            customerById.setFirstName(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getFirstName());
+            customerById.setLastName(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getLastName());
+            customerById.setEmailId(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getEmailId());
         }catch(NumberFormatException e){
             log.info("error in getCustomer : " + " - CorrelationId: " + corelationId );
             throw new CustomerRuntimeException(HttpStatus.BAD_REQUEST,HttpStatus.BAD_REQUEST.value(),
                     "invalid data! '" +data+"' customerId supports only numbers formats");
+        }catch(Exception e){
+            log.info("---error in getCustomer Exception : " + " - CorrelationId: " + corelationId );
+            e.printStackTrace();
+            throw new CustomerRuntimeException(HttpStatus.INTERNAL_SERVER_ERROR,HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "invalid data! '" +data+"' customerId supports only numbers formats");
         }
-        Customer customerById = customerAdapter.getCustomerById(customerId,corelationId );
-        customerById.setFirstName(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getFirstName());
-        customerById.setLastName(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getLastName());
-        customerById.setEmailId(customerById.getCustomerUserCollection().stream().collect(MoreCollectors.onlyElement()).getEmailId());
+
         return customerById;
 
     }
