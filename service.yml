@@ -8,4 +8,4 @@ spec:
     - port: 8085
       name: http
   selector:
-    app: customer-events
+    app: customer-service
