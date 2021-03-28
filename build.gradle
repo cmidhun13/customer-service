@@ -2,6 +2,15 @@ plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
+    //Devops code start
+    id 'pl.allegro.tech.build.axion-release' version '1.12.0'
+    id 'com.palantir.docker' version '0.25.0'
+    id 'com.palantir.docker-run' version '0.25.0'
+    id 'jp.classmethod.aws.cloudformation' version '0.41'
+    id 'com.palantir.docker-compose' version '0.22.1'
+    id 'jacoco'
+    id 'org.sonarqube' version '3.0'
+    //Devops code end
 }
 
 group = 'com.syzegee'
@@ -29,6 +38,9 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    //devops code start
+    jcenter()
+    //devops code End
 }
 ext {
     set('keycloakVersion', '7.0.1')
@@ -57,6 +69,9 @@ dependencies {
     testCompile('com.github.tomakehurst:wiremock:2.16.0')
     compile group: 'org.json', name: 'json', version: '20190722'
     testImplementation 'org.apache.httpcomponents:httpclient'
+    //Devops code starts here
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    //Devops code ends here
 }
 dependencyManagement {
     imports {
@@ -66,3 +81,29 @@ dependencyManagement {
 test {
     ignoreFailures = true
 }
+// Devops code start//
+String dockerHubUsernameProperty = findProperty('dockerHubUsername') ?: 'cmidhun'
+String imageName = "${dockerHubUsernameProperty}/customer-service:$version"
+
+docker {
+    name imageName
+    files "build/libs/${bootJar.archiveFileName.get()}"
+    buildArgs([JAR_FILE: bootJar.archiveFileName.get()])
+}
+
+dockerRun {
+    name project.name
+    image imageName
+    ports '8080:8080'
+    clean true
+}
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+    }
+}
+
+tasks['sonarqube'].dependsOn test
+
+// Devops code end//
